@@ -1,24 +1,68 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root,
+[data-theme="light"] {
+  --bg: #fafaf7;
+  --bg-card: #ffffff;
+  --bg-muted: #f4f4f0;
+  --bg-elevated: #ffffff;
+  --fg: #0a0a0a;
+  --fg-muted: #6b7280;
+  --fg-subtle: #9ca3af;
+  --border: #e7e5e0;
+  --border-strong: #d4d4d4;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --accent-bg: #ecfdf5;
+  --accent-fg: #ffffff;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+  --info: #3b82f6;
+  --info-bg: #eff6ff;
+  --priority-high-bg: #fee2e2;
+  --priority-high-fg: #991b1b;
+  --priority-medium-bg: #fef3c7;
+  --priority-medium-fg: #92400e;
+  --priority-low-bg: #dbeafe;
+  --priority-low-fg: #1e40af;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.08);
+  --focus-ring: rgba(0, 0, 0, 0.05);
+  --nav-bg: rgba(250, 250, 247, 0.85);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --bg-card: #161616;
+  --bg-muted: #1f1f1f;
+  --bg-elevated: #1a1a1a;
+  --fg: #fafafa;
+  --fg-muted: #a3a3a3;
+  --fg-subtle: #737373;
+  --border: #262626;
+  --border-strong: #404040;
+  --accent: #10b981;
+  --accent-hover: #34d399;
+  --accent-bg: rgba(16, 185, 129, 0.15);
+  --accent-fg: #ffffff;
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.12);
+  --warning: #fbbf24;
+  --warning-bg: rgba(251, 191, 36, 0.12);
+  --info: #60a5fa;
+  --info-bg: rgba(96, 165, 250, 0.12);
+  --priority-high-bg: rgba(248, 113, 113, 0.15);
+  --priority-high-fg: #fca5a5;
+  --priority-medium-bg: rgba(251, 191, 36, 0.15);
+  --priority-medium-fg: #fcd34d;
+  --priority-low-bg: rgba(96, 165, 250, 0.15);
+  --priority-low-fg: #93c5fd;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
+  --focus-ring: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(10, 10, 10, 0.85);
 }
 
 * {
@@ -27,24 +71,111 @@ body {
   margin: 0;
 }
 
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+html {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  color: var(--fg);
+  background: var(--bg);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  transition: background-color 0.15s, color 0.15s;
+}
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
-.imgDark {
-  display: none;
+button {
+  font-family: inherit;
+  cursor: pointer;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
 
-  .imgLight {
-    display: none;
+input,
+select,
+textarea {
+  color-scheme: inherit;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--fg) !important;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+button:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  .imgDark {
-    display: unset;
+}
+
+@keyframes auth-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes panel-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.auth-float-card {
+  animation: auth-float 6s ease-in-out infinite;
+}
+.auth-float-card:nth-child(2) { animation-delay: 1.2s; }
+.auth-float-card:nth-child(3) { animation-delay: 2.4s; }
+
+@media (max-width: 900px) {
+  .auth-aside {
+    display: none !important;
+  }
+  .auth-main {
+    grid-template-columns: 1fr !important;
+  }
+  .auth-logo-mobile {
+    display: inline-flex !important;
   }
 }
